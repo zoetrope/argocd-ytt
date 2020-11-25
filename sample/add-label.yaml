@@ -1,0 +1,8 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.subset({"kind":"Pod", "metadata": {"name": "testhttpd"}})
+---
+metadata:
+  labels:
+    #@overlay/match missing_ok=True
+    app.kubernetes.io/name: testhttpd
