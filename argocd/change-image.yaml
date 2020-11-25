@@ -1,0 +1,45 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata": {"name": "argocd-application-controller"}})
+---
+spec:
+  template:
+    spec:
+      containers:
+      #@overlay/match by="name"
+      - name: argocd-application-controller
+        image: argocd-ytt:v1
+        imagePullPolicy: Never
+
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata": {"name": "argocd-dex-server"}})
+---
+spec:
+  template:
+    spec:
+      initContainers:
+        #@overlay/match by="name"
+        - name: copyutil
+          image: argocd-ytt:v1
+          imagePullPolicy: Never
+
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata": {"name": "argocd-repo-server"}})
+---
+spec:
+  template:
+    spec:
+      containers:
+        #@overlay/match by="name"
+        - name: argocd-repo-server
+          image: argocd-ytt:v1
+          imagePullPolicy: Never
+
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata": {"name": "argocd-server"}})
+---
+spec:
+  template:
+    spec:
+      containers:
+        #@overlay/match by="name"
+        - name: argocd-server
+          image: argocd-ytt:v1
+          imagePullPolicy: Never
